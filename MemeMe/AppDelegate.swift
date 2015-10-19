@@ -2,7 +2,10 @@
 //  AppDelegate.swift
 //  MemeMe
 //
-//  Udacity.com MemeMe v1.0 Project
+//  Udacity iOS Developer Nanodegree
+//  MemeMe v2.0 Project
+//
+//  I use the Udacity.com course 'UIKit Fundamentals II' for creating this app.
 //
 //  Created by Benny on 9/28/15.
 //  Copyright © 2015 Benny Rodriguez. All rights reserved.
@@ -11,9 +14,11 @@
 import UIKit
 
 @UIApplicationMain
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var memes: [Meme] = []
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.

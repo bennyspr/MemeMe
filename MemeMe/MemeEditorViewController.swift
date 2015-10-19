@@ -2,13 +2,12 @@
 //  ViewController.swift
 //  MemeMe
 //
-//  Udacity.com MemeMe v1.0 Project
+//  Udacity iOS Developer Nanodegree
+//  MemeMe v2.0 Project
 //
 //  Notes:
 //  I have problem implementing AVCaptureDevice 'requestAccessForMediaType' function for 
 //  creating the question view for requesting access again to the camera.
-//
-//  I use the Udacity.com course 'UIKit Fundamentals I' for creating the MemeMe v1.0 App.
 //
 //  Created by Benny on 9/28/15.
 //  Copyright © 2015 Benny Rodriguez. All rights reserved.
@@ -30,12 +29,27 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
     @IBOutlet weak var topTextField: UITextField!
     @IBOutlet weak var bottomTextField: UITextField!
     
-    var shareButton: UIBarButtonItem!
-    var cancelButton: UIBarButtonItem!
-    var cameraButton: UIBarButtonItem!
-    var albumButton: UIBarButtonItem!
+    lazy var shareButton: UIBarButtonItem = {
+        
+        return self.barButtonItemByOption(.Share)
+    }()
+    
+    lazy var cancelButton: UIBarButtonItem = {
+        
+        return self.barButtonItemByOption(.Cancel)
+    }()
+    
+    lazy var cameraButton: UIBarButtonItem = {
+        
+        return self.barButtonItemByOption(.Camera)
+    }()
+    
+    lazy var albumButton: UIBarButtonItem = {
+       
+        return self.barButtonItemByOption(.Album)
+    }()
+    
     var pushViewBoolean: Bool!
-    var meme: Meme!
     
     let defaultTextForTop = "TOP"
     let defaultTextForBottom = "BOTTOM"
@@ -50,18 +64,12 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        shareButton = barButtonItemByOption(.Share)
+
         shareButton.enabled = false
         
         let flexibleItem = barButtonItemByOption(.FlexibleSpace)
         
-        cancelButton = barButtonItemByOption(.Cancel)
-        cancelButton.enabled = false
-        
         topToolbar.setItems([shareButton, flexibleItem, cancelButton], animated: true)
-        
-        cameraButton = barButtonItemByOption(.Camera)
         
         if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
             
@@ -69,9 +77,7 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         }
         
         let fixedItem = barButtonItemByOption(.FixedSpace, widthForFixedSpace: 50.0)
-        
-        let albumButton = barButtonItemByOption(.Album)
-        
+
         bottomToolbar.setItems([flexibleItem, cameraButton, fixedItem, albumButton, flexibleItem], animated: true)
         
         topTextField.defaultTextAttributes = memeTextAttributes
@@ -120,7 +126,7 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         
         if let push = pushViewBoolean where push == true {
             
-            view.frame.origin.y += getKeyboardHeight(notification)
+            view.frame.origin.y = 0
         }
     }
     
@@ -175,7 +181,6 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         if state {
             
             shareButton.enabled = true
-            cancelButton.enabled = true
             
         } else {
          
@@ -204,6 +209,7 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         presentViewController(camera, animated: true, completion: nil)
     }
     
+    // Create a UIImage that combines the image view and the labels.
     func generateMemedImage() -> UIImage {
         
         // Hide toolbar and navbar
@@ -212,8 +218,14 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         // Render view to an image
         UIGraphicsBeginImageContext(view.frame.size)
         view.drawViewHierarchyInRect(view.frame, afterScreenUpdates: true)
-        let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        var memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        
+        // Crop the image to the CGRect of the provided image
+        if let cropedImage = CGImageCreateWithImageInRect(memedImage.CGImage, imageView.frame) {
+            
+            memedImage = UIImage(CGImage: cropedImage)
+        }
         
         // Show toolbar and navbar
         configureHiddenPropertyToolbarsAndNavbar(false)
@@ -221,26 +233,31 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         return memedImage
     }
     
+    
+    
     func shareButtonAction() {
         
         pushViewBoolean = false
         
         // Generate a memed image
-        meme = Meme(
+        let meme = Meme(
             topText: (topTextField.text?.trim())!,
             bottomText: (bottomTextField.text?.trim())!,
             originalImage: imageView.image!,
             memedImaged: generateMemedImage()
         )
         
-        let activityView = UIActivityViewController(activityItems: [meme.memedImaged], applicationActivities: nil)
+        // Add it to the memeas array on the Application Delegate
+        (UIApplication.sharedApplication().delegate as? AppDelegate)?.memes.append(meme)
         
+        let activityView = UIActivityViewController(activityItems: [meme.memedImaged], applicationActivities: nil)
+
         presentViewController(activityView, animated: true, completion: nil)
     }
     
     func cancelButtonAction() {
         
-        configureShareEnableState(false)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     // http://stackoverflow.com/questions/27646107/how-to-check-if-the-user-gave-permission-to-use-the-camera
