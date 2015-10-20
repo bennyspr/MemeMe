@@ -20,15 +20,9 @@ class MemesCollectionTabViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        let space: CGFloat = 3.0
-        let dimension = (view.frame.size.width - (2 * space)) / 3.0
-        
-        flowLayout.minimumInteritemSpacing = space
-        flowLayout.minimumLineSpacing = space
-        flowLayout.itemSize = CGSizeMake(dimension, dimension)
-
     }
+    
+    
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -37,7 +31,7 @@ class MemesCollectionTabViewController: UIViewController {
         
         tabBarController!.tabBar.hidden = false
         
-        collectionView.reloadData()
+        configureFlowLayout()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -58,7 +52,28 @@ class MemesCollectionTabViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        
+        collectionView.hidden = true
+    }
+    
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        
+        configureFlowLayout()
+    }
+    
+    private func configureFlowLayout() {
+        
+        let space: CGFloat = 3.0
+        let dimension = (view.frame.size.width - (2 * space)) / 3.0
+        
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.minimumLineSpacing = space
+        flowLayout.itemSize = CGSizeMake(dimension, dimension)
+        
+        self.collectionView.reloadData()
+        self.collectionView.hidden = false
+    }
 }
 
 // MARK: UICollectionViewDelegate

@@ -239,7 +239,7 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         
         pushViewBoolean = false
         
-        // Generate a memed image
+        // Generate a new memed image
         let meme = Meme(
             topText: (topTextField.text?.trim())!,
             bottomText: (bottomTextField.text?.trim())!,
