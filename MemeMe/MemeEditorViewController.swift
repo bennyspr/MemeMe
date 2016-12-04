@@ -18,7 +18,7 @@ import UIKit
 
 private enum MemmeMeBarButton {
     
-    case Share, Cancel, FlexibleSpace, FixedSpace, Camera, Album
+    case share, cancel, flexibleSpace, fixedSpace, camera, album
 }
 
 class MemeEditorViewController: UIViewController, UINavigationControllerDelegate {
@@ -31,22 +31,22 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
     
     lazy var shareButton: UIBarButtonItem = {
         
-        return self.barButtonItemByOption(.Share)
+        return self.barButtonItemByOption(.share)
     }()
     
     lazy var cancelButton: UIBarButtonItem = {
         
-        return self.barButtonItemByOption(.Cancel)
+        return self.barButtonItemByOption(.cancel)
     }()
     
     lazy var cameraButton: UIBarButtonItem = {
         
-        return self.barButtonItemByOption(.Camera)
+        return self.barButtonItemByOption(.camera)
     }()
     
     lazy var albumButton: UIBarButtonItem = {
        
-        return self.barButtonItemByOption(.Album)
+        return self.barButtonItemByOption(.album)
     }()
     
     var pushViewBoolean: Bool!
@@ -55,144 +55,144 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
     let defaultTextForBottom = "BOTTOM"
     
     let memeTextAttributes = [
-        NSStrokeColorAttributeName : UIColor.blackColor(),
-        NSForegroundColorAttributeName : UIColor.whiteColor(),
+        NSStrokeColorAttributeName : UIColor.black,
+        NSForegroundColorAttributeName : UIColor.white,
         NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
         NSStrokeWidthAttributeName : -3.0
-    ]
+    ] as [String : Any]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        shareButton.enabled = false
+        shareButton.isEnabled = false
         
-        let flexibleItem = barButtonItemByOption(.FlexibleSpace)
+        let flexibleItem = barButtonItemByOption(.flexibleSpace)
         
         topToolbar.setItems([shareButton, flexibleItem, cancelButton], animated: true)
         
-        if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+        if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
             
-            cameraButton.enabled = false
+            cameraButton.isEnabled = false
         }
         
-        let fixedItem = barButtonItemByOption(.FixedSpace, widthForFixedSpace: 50.0)
+        let fixedItem = barButtonItemByOption(.fixedSpace, widthForFixedSpace: 50.0)
 
         bottomToolbar.setItems([flexibleItem, cameraButton, fixedItem, albumButton, flexibleItem], animated: true)
         
         topTextField.defaultTextAttributes = memeTextAttributes
         topTextField.delegate = self
         topTextField.text = defaultTextForTop
-        topTextField.textAlignment = NSTextAlignment.Center
+        topTextField.textAlignment = NSTextAlignment.center
         
         bottomTextField.defaultTextAttributes = memeTextAttributes
         bottomTextField.delegate = self
         bottomTextField.text = defaultTextForBottom
-        bottomTextField.textAlignment = NSTextAlignment.Center
+        bottomTextField.textAlignment = NSTextAlignment.center
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Subscribe to keyboard notifications
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Unsubscribe from keyboard notifications
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         
         return true
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(_ notification: Notification) {
         
-        if let push = pushViewBoolean where push == true {
+        if let push = pushViewBoolean, push == true {
             
             view.frame.origin.y = -getKeyboardHeight(notification)
         }
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillHide(_ notification: Notification) {
         
-        if let push = pushViewBoolean where push == true {
+        if let push = pushViewBoolean, push == true {
             
             view.frame.origin.y = 0
         }
     }
     
-    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
+    func getKeyboardHeight(_ notification: Notification) -> CGFloat {
         
         let userInfo = notification.userInfo
         let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as? NSValue // of CGRect
-        return (keyboardSize?.CGRectValue().height)!
+        return (keyboardSize?.cgRectValue.height)!
     }
     
-    private func barButtonItemByOption(option: MemmeMeBarButton, widthForFixedSpace: CGFloat = 0) -> UIBarButtonItem {
+    fileprivate func barButtonItemByOption(_ option: MemmeMeBarButton, widthForFixedSpace: CGFloat = 0) -> UIBarButtonItem {
         
         switch option {
             
-        case .Share:
+        case .share:
             
-            return UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareButtonAction")
+            return UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(MemeEditorViewController.shareButtonAction))
             
-        case .Cancel:
+        case .cancel:
             
-            return UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "cancelButtonAction")
+            return UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(MemeEditorViewController.cancelButtonAction))
             
-        case .FlexibleSpace:
+        case .flexibleSpace:
             
-            return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+            return UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
             
-        case .FixedSpace:
+        case .fixedSpace:
             
-            let button = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+            let button = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
             button.width = widthForFixedSpace
             return button
             
-        case .Camera:
+        case .camera:
             
-            return UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: "cameraButtonAction")
+            return UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(MemeEditorViewController.cameraButtonAction))
             
-        case .Album:
+        case .album:
             
-            return UIBarButtonItem(title: "Album", style: .Done, target: self, action: "albumButtonAction")
+            return UIBarButtonItem(title: "Album", style: .done, target: self, action: #selector(MemeEditorViewController.albumButtonAction))
         }
     }
     
-    private func configureHiddenPropertyToolbarsAndNavbar(hidden: Bool) {
+    fileprivate func configureHiddenPropertyToolbarsAndNavbar(_ hidden: Bool) {
         
-        topToolbar.hidden = hidden
-        bottomToolbar.hidden = hidden
-        navigationController?.navigationBarHidden = hidden
+        topToolbar.isHidden = hidden
+        bottomToolbar.isHidden = hidden
+        navigationController?.isNavigationBarHidden = hidden
     }
     
-    private func configureShareEnableState(state: Bool) {
+    fileprivate func configureShareEnableState(_ state: Bool) {
         
         if state {
             
-            shareButton.enabled = true
+            shareButton.isEnabled = true
             
         } else {
          
-            shareButton.enabled = false
-            cancelButton.enabled = false
+            shareButton.isEnabled = false
+            cancelButton.isEnabled = false
             topTextField.text = defaultTextForTop
             bottomTextField.text = defaultTextForBottom
             imageView.image = nil
         }
     }
     
-    private func showCamera() {
+    fileprivate func showCamera() {
         
         let camera = UIImagePickerController()
         
@@ -200,13 +200,13 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         
         camera.allowsEditing = false
         
-        camera.sourceType = UIImagePickerControllerSourceType.Camera
+        camera.sourceType = UIImagePickerControllerSourceType.camera
         
-        camera.cameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Photo
+        camera.cameraCaptureMode = UIImagePickerControllerCameraCaptureMode.photo
         
-        camera.modalPresentationStyle = UIModalPresentationStyle.FullScreen
+        camera.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         
-        presentViewController(camera, animated: true, completion: nil)
+        present(camera, animated: true, completion: nil)
     }
     
     // Create a UIImage that combines the image view and the labels.
@@ -217,14 +217,14 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         
         // Render view to an image
         UIGraphicsBeginImageContext(view.frame.size)
-        view.drawViewHierarchyInRect(view.frame, afterScreenUpdates: true)
-        var memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        view.drawHierarchy(in: view.frame, afterScreenUpdates: true)
+        var memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         // Crop the image to the CGRect of the provided image
-        if let cropedImage = CGImageCreateWithImageInRect(memedImage.CGImage, imageView.frame) {
+        if let cropedImage = memedImage.cgImage?.cropping(to: imageView.frame) {
             
-            memedImage = UIImage(CGImage: cropedImage)
+            memedImage = UIImage(cgImage: cropedImage)
         }
         
         // Show toolbar and navbar
@@ -248,34 +248,34 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         )
         
         // Add it to the memeas array on the Application Delegate
-        (UIApplication.sharedApplication().delegate as? AppDelegate)?.memes.append(meme)
+        (UIApplication.shared.delegate as? AppDelegate)?.memes.append(meme)
         
         let activityView = UIActivityViewController(activityItems: [meme.memedImaged], applicationActivities: nil)
 
-        presentViewController(activityView, animated: true, completion: nil)
+        present(activityView, animated: true, completion: nil)
     }
     
     func cancelButtonAction() {
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     // http://stackoverflow.com/questions/27646107/how-to-check-if-the-user-gave-permission-to-use-the-camera
     func cameraButtonAction() {
         
-        if AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo) ==  AVAuthorizationStatus.Authorized {
+        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.authorized {
             
             // Already Authorized
             showCamera()
             
         } else {
             
-            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: { (granted :Bool) -> Void in
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted :Bool) -> Void in
                 
                 if granted == true {
                     
                     // User granted. Code because this block may be executed in a thread.
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async(execute: { () -> Void in
                         
                         self.showCamera()
                     })
@@ -283,7 +283,7 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
                 } else {
                     
                     // User Rejected
-                    UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+                    UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
                 }
             });
         }
@@ -295,7 +295,7 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
         
         imagePicker.delegate = self
         
-        presentViewController(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true, completion: nil)
     }
 }
 
@@ -303,11 +303,11 @@ class MemeEditorViewController: UIViewController, UINavigationControllerDelegate
 extension MemeEditorViewController: UIImagePickerControllerDelegate {
     
     // http://www.codingexplorer.com/choosing-images-with-uiimagepickercontroller-in-swift/
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             
-            imageView.contentMode = .ScaleAspectFit
+            imageView.contentMode = .scaleAspectFit
             imageView.image = pickedImage
             configureShareEnableState(true)
             
@@ -316,17 +316,17 @@ extension MemeEditorViewController: UIImagePickerControllerDelegate {
             configureShareEnableState(false)
         }
         
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }
@@ -334,7 +334,7 @@ extension MemeEditorViewController: UIImagePickerControllerDelegate {
 // MARK: UITextFieldDelegate
 extension MemeEditorViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField.text?.trim() == "" {
             
@@ -353,7 +353,7 @@ extension MemeEditorViewController: UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         
         if textField == bottomTextField {
             

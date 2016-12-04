@@ -15,25 +15,25 @@ class MemeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var bottomTextField: UITextField!
     
     let memeTextAttributes = [
-        NSStrokeColorAttributeName : UIColor.blackColor(),
-        NSForegroundColorAttributeName : UIColor.whiteColor(),
+        NSStrokeColorAttributeName : UIColor.black,
+        NSForegroundColorAttributeName : UIColor.white,
         NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 16)!,
         NSStrokeWidthAttributeName : -3.0
-    ]
+    ] as [String : Any]
     
-    func configureWithInfo(meme: Meme) {
+    func configureWithInfo(_ meme: Meme) {
         
         topTextField.defaultTextAttributes = memeTextAttributes
-        topTextField.textAlignment = NSTextAlignment.Center
-        topTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+        topTextField.textAlignment = NSTextAlignment.center
+        topTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.center
         topTextField.text = meme.topText
         
         bottomTextField.defaultTextAttributes = memeTextAttributes
-        bottomTextField.textAlignment = NSTextAlignment.Center
-        bottomTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+        bottomTextField.textAlignment = NSTextAlignment.center
+        bottomTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.center
         bottomTextField.text = meme.bottomText
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async(execute: { () -> Void in
             
             self.topTextField.layoutIfNeeded()
             self.bottomTextField.layoutIfNeeded()

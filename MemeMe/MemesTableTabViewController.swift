@@ -22,23 +22,23 @@ class MemesTableTabViewController: UIViewController {
     }
 
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        memes = (UIApplication.sharedApplication().delegate as? AppDelegate)?.memes
+        memes = (UIApplication.shared.delegate as? AppDelegate)?.memes
         
-        tabBarController!.tabBar.hidden = false
+        tabBarController!.tabBar.isHidden = false
         
         tableView.reloadData()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "showMemeDetailViewFromTable" {
             
             if let row = sender as? Int {
                 
-                let detailViewController = segue.destinationViewController as! MemeDetailViewController
+                let detailViewController = segue.destination as! MemeDetailViewController
                 
                 detailViewController.meme = memes[row]
             }
@@ -55,41 +55,41 @@ class MemesTableTabViewController: UIViewController {
 // MARK: UITextFieldDelegate
 extension MemesTableTabViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        performSegueWithIdentifier("showMemeDetailViewFromTable", sender: indexPath.row)
+        performSegue(withIdentifier: "showMemeDetailViewFromTable", sender: indexPath.row)
     }
 }
 
 // MARK: UITableViewDataSource
 extension MemesTableTabViewController: UITableViewDataSource {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return memes.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("MemeTableViewCell", forIndexPath: indexPath) as! MemeTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MemeTableViewCell", for: indexPath) as! MemeTableViewCell
         
         cell.configureWithInfo(memes[indexPath.row])
         
         return cell
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         return 1
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        if editingStyle == UITableViewCellEditingStyle.Delete {
+        if editingStyle == UITableViewCellEditingStyle.delete {
             
-            memes.removeAtIndex(indexPath.row)
+            memes.remove(at: indexPath.row)
             
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
         }
     }
 }

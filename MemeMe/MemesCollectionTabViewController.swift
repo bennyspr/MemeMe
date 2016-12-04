@@ -24,23 +24,23 @@ class MemesCollectionTabViewController: UIViewController {
     
     
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        memes = (UIApplication.sharedApplication().delegate as? AppDelegate)?.memes
+        memes = (UIApplication.shared.delegate as? AppDelegate)?.memes
         
-        tabBarController!.tabBar.hidden = false
+        tabBarController!.tabBar.isHidden = false
         
         configureFlowLayout()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "showMemeDetailViewFromCollection" {
             
             if let row = sender as? Int {
                 
-                let detailViewController = segue.destinationViewController as! MemeDetailViewController
+                let detailViewController = segue.destination as! MemeDetailViewController
                 
                 detailViewController.meme = memes[row]
             }
@@ -52,50 +52,50 @@ class MemesCollectionTabViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         
-        collectionView.hidden = true
+        collectionView.isHidden = true
     }
     
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         
         configureFlowLayout()
     }
     
-    private func configureFlowLayout() {
+    fileprivate func configureFlowLayout() {
         
         let space: CGFloat = 3.0
         let dimension = (view.frame.size.width - (2 * space)) / 3.0
         
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
-        flowLayout.itemSize = CGSizeMake(dimension, dimension)
+        flowLayout.itemSize = CGSize(width: dimension, height: dimension)
         
         self.collectionView.reloadData()
-        self.collectionView.hidden = false
+        self.collectionView.isHidden = false
     }
 }
 
 // MARK: UICollectionViewDelegate
 extension MemesCollectionTabViewController: UICollectionViewDelegate {
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        performSegueWithIdentifier("showMemeDetailViewFromCollection", sender: indexPath.row)
+        performSegue(withIdentifier: "showMemeDetailViewFromCollection", sender: indexPath.row)
     }
 }
 
 // MARK: UICollectionViewDataSource
 extension MemesCollectionTabViewController: UICollectionViewDataSource {
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return memes.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("MemeCollectionViewCell", forIndexPath: indexPath) as! MemeCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MemeCollectionViewCell", for: indexPath) as! MemeCollectionViewCell
 
         cell.configureWithInfo(memes[indexPath.row])
         

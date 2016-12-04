@@ -16,11 +16,11 @@ class MemeTableViewCell: UITableViewCell {
     @IBOutlet weak var bottomTextField: UITextField!
     
     let memeTextAttributes = [
-        NSStrokeColorAttributeName : UIColor.blackColor(),
-        NSForegroundColorAttributeName : UIColor.whiteColor(),
+        NSStrokeColorAttributeName : UIColor.black,
+        NSForegroundColorAttributeName : UIColor.white,
         NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 16)!,
         NSStrokeWidthAttributeName : -3.0
-    ]
+    ] as [String : Any]
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,22 +29,22 @@ class MemeTableViewCell: UITableViewCell {
         
         
         topTextField.defaultTextAttributes = memeTextAttributes
-        topTextField.textAlignment = NSTextAlignment.Center
-        topTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+        topTextField.textAlignment = NSTextAlignment.center
+        topTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.center
         
         bottomTextField.defaultTextAttributes = memeTextAttributes
-        bottomTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-        bottomTextField.textAlignment = NSTextAlignment.Center
+        bottomTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+        bottomTextField.textAlignment = NSTextAlignment.center
         
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
     
-    func configureWithInfo(meme: Meme) {
+    func configureWithInfo(_ meme: Meme) {
         
         topTextField.text = meme.topText
         

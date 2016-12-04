@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B20858691BD2EB07005971F7 /* MemesTableTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20858681BD2EB07005971F7 /* MemesTableTabViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		B208586B1BD2ED92005971F7 /* MemesCollectionTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B208586A1BD2ED92005971F7 /* MemesCollectionTabViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		B20858711BD3181E005971F7 /* MemeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20858701BD3181E005971F7 /* MemeCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		B20858731BD3E1E6005971F7 /* MemeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20858721BD3E1E6005971F7 /* MemeTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		B20858751BD48A33005971F7 /* MemeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20858741BD48A33005971F7 /* MemeDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		B20858691BD2EB07005971F7 /* MemesTableTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20858681BD2EB07005971F7 /* MemesTableTabViewController.swift */; };
+		B208586B1BD2ED92005971F7 /* MemesCollectionTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B208586A1BD2ED92005971F7 /* MemesCollectionTabViewController.swift */; };
+		B20858711BD3181E005971F7 /* MemeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20858701BD3181E005971F7 /* MemeCollectionViewCell.swift */; };
+		B20858731BD3E1E6005971F7 /* MemeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20858721BD3E1E6005971F7 /* MemeTableViewCell.swift */; };
+		B20858751BD48A33005971F7 /* MemeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20858741BD48A33005971F7 /* MemeDetailViewController.swift */; };
 		B20C33C31BB95C1F005223CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C33C21BB95C1F005223CC /* AppDelegate.swift */; };
 		B20C33C51BB95C1F005223CC /* MemeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C33C41BB95C1F005223CC /* MemeEditorViewController.swift */; };
 		B20C33C81BB95C1F005223CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B20C33C61BB95C1F005223CC /* Main.storyboard */; };
 		B20C33CA1BB95C1F005223CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B20C33C91BB95C1F005223CC /* Assets.xcassets */; };
 		B20C33CD1BB95C1F005223CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B20C33CB1BB95C1F005223CC /* LaunchScreen.storyboard */; };
-		B213C3AF1BBA41A600AC823F /* String+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B213C3AE1BBA41A600AC823F /* String+Custom.swift */; settings = {ASSET_TAGS = (); }; };
-		B25E75381BBA0426007984D8 /* Meme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25E75371BBA0426007984D8 /* Meme.swift */; settings = {ASSET_TAGS = (); }; };
+		B213C3AF1BBA41A600AC823F /* String+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B213C3AE1BBA41A600AC823F /* String+Custom.swift */; };
+		B25E75381BBA0426007984D8 /* Meme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25E75371BBA0426007984D8 /* Meme.swift */; };
 		B25E753A1BBA2737007984D8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25E75391BBA2737007984D8 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -115,11 +115,13 @@
 		B20C33B71BB95C1F005223CC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Benny Rodriguez";
 				TargetAttributes = {
 					B20C33BE1BB95C1F005223CC = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = 6JNP8UGNZY;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -206,8 +208,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -250,8 +254,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -270,6 +276,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -278,10 +285,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6JNP8UGNZY;
 				INFOPLIST_FILE = MemeMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.brodr.MemeMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -289,10 +298,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6JNP8UGNZY;
 				INFOPLIST_FILE = MemeMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.brodr.MemeMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
