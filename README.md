@@ -14,7 +14,7 @@ This iPhone app is a meme-generating that enables a user to attach a caption to 
 </td>
 <td>
 <kbd>
-<img src="https://bennyspr.com/img/github/pitchPerfect/Simulator_Screen_Shot_2.png" width="300">
+<img src="https://bennyspr.com/img/github/memeMe/Simulator_Screen_Shot_2.png" width="300">
 </kbd>
 </td>
 </tr>
